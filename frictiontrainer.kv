@@ -1,0 +1,43 @@
+#:kivy 1.11.1
+
+<FrictionDisplay>:    
+    ps1: pressure_sensor_1
+    ps2: pressure_sensor_2
+    
+    canvas:
+        Rectangle:
+            pos: self.center_x - 5, 0
+            size: 10, self.height
+        
+    Label:
+        font_size: 70  
+        center_x: root.width / 4
+        top: root.top - 20
+        text: "Gauge Pressure 1"    
+    
+    Label:
+        font_size: 70  
+        center_x: root.width / 4
+        top: root.top - 100
+        text: str(root.ps1.data)
+        
+        
+    Label:
+        font_size: 70  
+        center_x: root.width * 3 / 4
+        top: root.top - 20
+        text: "Gauge Pressure 2"    
+    
+    Label:
+        font_size: 70  
+        center_x: root.width * 3 / 4
+        top: root.top - 100
+        text: str(root.ps2.data)
+        
+    PressureSensor:
+        id: pressure_sensor_1
+        
+    PressureSensor:
+        id: pressure_sensor_2
+
+    
