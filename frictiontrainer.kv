@@ -1,43 +1,117 @@
 #:kivy 1.11.1
 
 <FrictionDisplay>:    
+    #fig: thefig
     ps1: pressure_sensor_1
     ps2: pressure_sensor_2
     
-    canvas:
-        Rectangle:
-            pos: self.center_x - 5, 0
-            size: 10, self.height
+    BoxLayout:
         
-    Label:
-        font_size: 70  
-        center_x: root.width / 4
-        top: root.top - 20
-        text: "Gauge Pressure 1"    
-    
-    Label:
-        font_size: 70  
-        center_x: root.width / 4
-        top: root.top - 100
-        text: str(root.ps1.data)
+        orientation:'vertical'
+        size: root.width, root.height
+ 
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1
+            Rectangle:
+                size: self.size
+
         
+        BoxLayout:
+            
+            orientation: 'horizontal'
+            
+            Label:
+                size: root.width*0.3, root.height
+                canvas.before:
+                    Color:
+                        rgba: 1, 0, 0, 1
+                    Line:
+                        width: 2
+                        rectangle: self.x, self.y, self.width, self.height
+                    
+                color: 0.1, 0.1, 0.1, 1
+                markup: True
+                font_size: root.font_size
+                text: str(root.pdiff)
+                
+            RealTimeFigure:
+                #size: root.width, root.height
+            
+                            
+                
+        BoxLayout:
         
-    Label:
-        font_size: 70  
-        center_x: root.width * 3 / 4
-        top: root.top - 20
-        text: "Gauge Pressure 2"    
-    
-    Label:
-        font_size: 70  
-        center_x: root.width * 3 / 4
-        top: root.top - 100
-        text: str(root.ps2.data)
-        
+            orientation: 'horizontal'
+            size_hint: [1,0.25]
+            
+            BoxLayout:
+                orientation: 'vertical'
+
+                canvas.before:
+                    Color:
+                        rgba: 0, 0.5, 0, 1
+                    Rectangle:
+                        pos: self.pos   
+                        size: self.size
+                    Color:
+                        rgba: 0, 0, 0, 1
+                    Line:
+                        width: 2
+                        rectangle: self.x, self.y, self.width, self.height
+                
+                Label:
+                    color: 0.8, 0.8, 0.8, 1
+                    font_size: root.font_size
+                    markup: True
+                    text: "P[sub]1[/sub]" 
+
+            
+                Label:
+                    color: 0.8, 0.8, 0.8, 1
+                    font_size: root.font_size
+                    text: str(root.ps1.data)
+                
+            
+            BoxLayout:
+                orientation: 'vertical'
+
+                canvas.before:
+                    Color:
+                        rgba: 0, 0.5, 0, 1
+                    Rectangle:
+                        pos: self.pos   
+                        size: self.size
+                    Color:
+                        rgba: 0, 0, 0, 1
+                    Line:
+                        width: 2
+                        rectangle: self.x, self.y, self.width, self.height
+                
+                Label:
+                    color: 0.8, 0.8, 0.8, 1
+                    font_size: root.font_size
+                    markup: True
+                    text: "P[sub]2[/sub]" 
+
+            
+                Label:
+                    color: 0.8, 0.8, 0.8, 1
+                    font_size: root.font_size
+                    text: str(root.ps2.data)
+
+    #RealTimeFigure:
+        #id: thefig
+
     PressureSensor:
         id: pressure_sensor_1
-        
+            
     PressureSensor:
         id: pressure_sensor_2
 
     
+  
+                
+        
+                
+
