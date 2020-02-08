@@ -25,23 +25,6 @@ def MakeDataPresentable(numin):
     return "{:.3f}".format(numin)
 
 
-class BGColor(Widget):
-    
-    r = NumericProperty(1)
-    g = NumericProperty(1)
-    b = NumericProperty(1)
-    a = NumericProperty(1)
-    
-    def __init__(self, **kwargs):
-        super(BGColor, self).__init__(**kwargs)
-        
-        print('\n\n***\nsomebody made a color\n***\n\n')
-        
-        self.r = 1
-        self.g = 1
-        self.b = 1
-        self.a = 1
-
 class PressureSensor(Widget):
     psi_per_kpa = 1./6.89476
     
@@ -113,7 +96,6 @@ class FrictionDisplay(Widget):
     def __init__(self, **kwargs):
         super(FrictionDisplay, self).__init__(**kwargs)
         #self.thefig = RealTimeFigure()
-        self.col.r = 1
 
         #print('\n\n\n\n******')
         #print(self.thefig)
@@ -123,8 +105,11 @@ class FrictionDisplay(Widget):
     ps1 = ObjectProperty(None)
     ps2 = ObjectProperty(None)
     
-    col = ObjectProperty(None)
-    
+    #col = ObjectProperty(None)
+    r = ObjectProperty(1)
+    g = ObjectProperty(0.5)
+    b = ObjectProperty(1)
+    a = ObjectProperty(1)
     
     pdiff = StringProperty(None)
     font_size = NumericProperty(50)
@@ -144,7 +129,7 @@ class FrictionTrainerApp(App):
     def build(self):
         #print('\n\n\n*********building**********\n\n\n')
         display = FrictionDisplay()
-        #Clock.schedule_interval(display.update, 60.0/60.0)
+        Clock.schedule_interval(display.update, 60.0/60.0)
         return display
 
 

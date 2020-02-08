@@ -2,7 +2,6 @@
 
 <FrictionDisplay>:    
     #fig: thefig
-    col : bgcol
     ps1: pressure_sensor_1
     ps2: pressure_sensor_2
     
@@ -16,8 +15,8 @@
  
         canvas:
             Color:
-                ##rgba: root.col.r, root.col.g, root.col.b, root.col.a
-                rgba: 1,1,0,1
+                rgba: root.r, root.g, root.b, root.a
+                #rgba: 1,1,0,1
             Rectangle:
                 size: self.size
 
@@ -116,9 +115,6 @@
     PressureSensor:
         id: pressure_sensor_2
 
-    BGColor:
-        id: bgcol
-  
                 
         
                 
