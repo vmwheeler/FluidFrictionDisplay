@@ -24,6 +24,25 @@ import os
 def MakeDataPresentable(numin):
     return "{:.3f}".format(numin)
 
+class RGBAColor(Widget):
+    
+    r = NumericProperty(0.1)
+    g = NumericProperty(0.1)
+    b = NumericProperty(0.1)
+    a = NumericProperty(1)
+    
+    def __init__(self, **kwargs):
+        super(RGBAColor, self).__init__(**kwargs)
+        for key, value in kwargs.items():
+            print("{0} = {1}".format(key, value))
+        self.r = kwargs.get('r')
+        self.g = kwargs.get('g')
+        self.b = kwargs.get('b')
+        self.a = kwargs.get('a')
+        #self.r = r
+        #self.g = g
+        #self.b = b
+        #self.a = a
 
 class PressureSensor(Widget):
     psi_per_kpa = 1./6.89476
@@ -105,11 +124,8 @@ class FrictionDisplay(Widget):
     ps1 = ObjectProperty(None)
     ps2 = ObjectProperty(None)
     
-    #col = ObjectProperty(None)
-    r = ObjectProperty(1)
-    g = ObjectProperty(0.5)
-    b = ObjectProperty(1)
-    a = ObjectProperty(1)
+    col  = ObjectProperty(RGBAColor(r=0.6,g=0,b=0,a=1))
+    tcol = ObjectProperty(RGBAColor(r=1,g=1,b=1,a=1))
     
     pdiff = StringProperty(None)
     font_size = NumericProperty(50)
