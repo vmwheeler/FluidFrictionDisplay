@@ -43,52 +43,6 @@ class PressureSensor(Widget):
         self.numdat = 10 + np.random.randn()
         self.data = MakeDataPresentable(self.numdat)
         print(self.numdat*self.psi_per_kpa)
-        
-'''       
-class RealTimeFigure(BoxLayout):
-    
-    
-    
-    def __init__(self, **kwargs):
-        super(RealTimeFigure, self).__init__(**kwargs)
-        
-        self.ts = np.linspace(0,5,num=50)        
-        self.data = np.sin(self.ts)
-        
-        
-        #self.add_widget(self.kvthingy)
-        #self.add_widget(self.fig.canvas)
-        
-        self.fig, self.ax = plt.subplots()
-        self.ax.plot(self.ts,self.data) 
-        #data = ListProperty(None)
-        self.kvthingy = self.fig.canvas
-        self.add_widget(self.kvthingy)
-        
-        
-        print('\n\n****')
-        print('first draw')
-        print(self.kvthingy)
-        print('****\n\n')
-        
-    def redraw(self):
-                
-        self.data[0] = self.data[0]+0.1
-            
-        print('\n\n\n\n******')
-        print('redrawing')
-        print(self.data)
-        print('******\n\n\n\n')
-        
-        #self.ax.plot(self.ts,self.data)
-        #self.kvthingy.figure.axes[0].plot(self.ts,self.data)  
-        self.ax.clear()
-        self.ax.plot(self.ts,self.data, 'bo-', linewidth=5.0)
-        
-        self.kvthingy.draw()
-        
-    #fig = ObjectProperty()
-'''
 
 
 class FrictionDisplay(Widget):
@@ -96,7 +50,8 @@ class FrictionDisplay(Widget):
     def __init__(self, **kwargs):
         super(FrictionDisplay, self).__init__(**kwargs)
         #self.thefig = RealTimeFigure()
-
+        self.bggo = (0,0.4,0,1)
+        self.bgstop = (0.6,0,0,1)
         #print('\n\n\n\n******')
         #print(self.thefig)
         #print('******\n\n\n\n')
@@ -107,8 +62,9 @@ class FrictionDisplay(Widget):
     
     
     bgcol = ListProperty((0.6,0,0,1))
+    
     tcol = ListProperty((1,1,1,1))
-    pcol = ListProperty((0.5,0.5,0.5,1))
+    pcol = ListProperty((0.2,0.2,0.2,1))
     
     pdiff = StringProperty(None)
     font_size = NumericProperty(50)
@@ -122,10 +78,9 @@ class FrictionDisplay(Widget):
         self.pdiff = MakeDataPresentable(numdiff)
         #self.thefig.redraw()
         if numdiff>1.:
-            print('green')
-            self.bgcol = (0.0,0.6,0.0,1.0)
+            self.bgcol = self.bggo
         else:
-            self.bgcol = ((0.6,0.0,0.0,1.0))
+            self.bgcol = self.bgstop
 
 class FrictionTrainerApp(App):
 
