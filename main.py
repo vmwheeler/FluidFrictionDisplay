@@ -24,25 +24,6 @@ import os
 def MakeDataPresentable(numin):
     return "{:.3f}".format(numin)
 
-class RGBAColor(Widget):
-    
-    r = NumericProperty(0.1)
-    g = NumericProperty(0.1)
-    b = NumericProperty(0.1)
-    a = NumericProperty(1)
-    
-    def __init__(self, **kwargs):
-        super(RGBAColor, self).__init__(**kwargs)
-        for key, value in kwargs.items():
-            print("{0} = {1}".format(key, value))
-        self.r = kwargs.get('r')
-        self.g = kwargs.get('g')
-        self.b = kwargs.get('b')
-        self.a = kwargs.get('a')
-        #self.r = r
-        #self.g = g
-        #self.b = b
-        #self.a = a
 
 class PressureSensor(Widget):
     psi_per_kpa = 1./6.89476
@@ -124,8 +105,10 @@ class FrictionDisplay(Widget):
     ps1 = ObjectProperty(None)
     ps2 = ObjectProperty(None)
     
-    col  = ObjectProperty(RGBAColor(r=0.6,g=0,b=0,a=1))
-    tcol = ObjectProperty(RGBAColor(r=1,g=1,b=1,a=1))
+    
+    bgcol = ListProperty((0.6,0,0,1))
+    tcol = ListProperty((1,1,1,1))
+    pcol = ListProperty((0.5,0.5,0.5,1))
     
     pdiff = StringProperty(None)
     font_size = NumericProperty(50)
@@ -135,10 +118,14 @@ class FrictionDisplay(Widget):
         
         self.ps1.pull()
         self.ps2.pull()
-        self.pdiff = MakeDataPresentable(abs(self.ps1.numdat - self.ps2.numdat))
+        numdiff = abs(self.ps1.numdat - self.ps2.numdat)
+        self.pdiff = MakeDataPresentable(numdiff)
         #self.thefig.redraw()
-
-
+        if numdiff>1.:
+            print('green')
+            self.bgcol = (0.0,0.6,0.0,1.0)
+        else:
+            self.bgcol = ((0.6,0.0,0.0,1.0))
 
 class FrictionTrainerApp(App):
 

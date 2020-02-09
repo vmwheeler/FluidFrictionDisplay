@@ -4,8 +4,6 @@
     #fig: thefig
     ps1: pressure_sensor_1
     ps2: pressure_sensor_2
-    col: bgcolor
-    tcol: textcolor
     
     # this boxlayout represents the whole display
     BoxLayout:
@@ -16,8 +14,7 @@
  
         canvas:
             Color:
-                #rgba: 0.6,0,0,1
-                rgba: root.col.r, root.col.g, root.col.b, root.col.a
+                rgba: root.bgcol
             Rectangle:
                 size: self.size
 
@@ -32,12 +29,12 @@
                 size: root.width, root.height
                 canvas.before:
                     Color:
-                        rgba: 1, 1, 1, 1
+                        rgba: root.tcol
                     Line:
                         width: 2
                         rectangle: self.x, self.y, self.width, self.height
                 
-                color: 1,1,1,1
+                color: root.tcol
                 #color: root.tcol.r, root.tcol.g, root.tcol.b, root.tcol.a
                 markup: True
                 font_size: root.font_size
@@ -58,25 +55,25 @@
 
                 canvas.before:
                     Color:
-                        rgba: 0.5, 0.5, 0.5, 1
+                        rgba: root.pcol
                     Rectangle:
                         pos: self.pos   
                         size: self.size
                     Color:
-                        rgba: 1, 1, 1, 1
+                        rgba: root.tcol
                     Line:
                         width: 2
                         rectangle: self.x, self.y, self.width, self.height
                 
                 Label:
-                    color: 1, 1, 1, 1
+                    color: root.tcol
                     font_size: root.font_size
                     markup: True
                     text: "p[sub]1[/sub]" 
 
             
                 Label:
-                    color: 1, 1, 1, 1
+                    color: root.tcol
                     font_size: root.font_size
                     text: str(root.ps1.data)
                 
@@ -86,25 +83,25 @@
 
                 canvas.before:
                     Color:
-                        rgba: 0.5, 0.5, 0.5, 1
+                        rgba: root.pcol
                     Rectangle:
                         pos: self.pos   
                         size: self.size
                     Color:
-                        rgba: 1, 1, 1, 1
+                        rgba: root.tcol
                     Line:
                         width: 2
                         rectangle: self.x, self.y, self.width, self.height
                 
                 Label:
-                    color: 1, 1, 1, 1
+                    color: root.tcol
                     font_size: root.font_size
                     markup: True
                     text: "p[sub]2[/sub]" 
 
             
                 Label:
-                    color: 1, 1, 1, 1
+                    color: root.tcol
                     font_size: root.font_size
                     text: str(root.ps2.data)
 
@@ -117,10 +114,6 @@
     PressureSensor:
         id: pressure_sensor_2
 
-    RGBAColor:
-        id: bgcolor
-    RGBAColor
-        id: textcolor
         
         
                 
