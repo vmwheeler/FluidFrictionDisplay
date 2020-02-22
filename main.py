@@ -28,11 +28,12 @@ def MakeDataPresentable(numin):
 class PressureSensor(Widget):
     psi_per_kpa = 1./6.89476
     
-    print("\n\n***\ninitializing pressure sensor\n***\n\n")
-    
     data = StringProperty(10)
     
     def __init__(self, **kwargs):
+        self.channel = kwargs.pop('channel')
+        print("\n\n***\ninitializing pressure sensor\n***\n\n")
+        
         super(PressureSensor, self).__init__(**kwargs)
         self.numdat = 10 + np.random.randn()
         
@@ -47,33 +48,39 @@ class PressureSensor(Widget):
 
 class FrictionDisplay(Widget):
 
-    def __init__(self, **kwargs):
-        super(FrictionDisplay, self).__init__(**kwargs)
-        #self.thefig = RealTimeFigure()
-        self.bggo = (0,0.4,0,1)
-        self.bgstop = (0.6,0,0,1)
-        #print('\n\n\n\n******')
-        #print(self.thefig)
-        #print('******\n\n\n\n')
-
     #thefig = ObjectProperty(None)
-    ps1 = ObjectProperty(None)
-    ps2 = ObjectProperty(None)
-    
-    
+    ps1 = ObjectProperty(PressureSensor(channel=0))
+    ps2 = ObjectProperty(PressureSensor(channel=0))
+
     bgcol = ListProperty((0.6,0,0,1))
     
     tcol = ListProperty((1,1,1,1))
     pcol = ListProperty((0.2,0.2,0.2,1))
     
-    pdiff = StringProperty(None)
+    pdiff = StringProperty('0')
     font_size = NumericProperty(50)
+
+    def __init__(self, **kwargs):
+        self.channels = kwargs.pop('channel_nums')
+        super(FrictionDisplay, self).__init__(**kwargs)
+        #self.thefig = RealTimeFigure()
+        self.bggo = (0,0.4,0,1)
+        self.bgstop = (0.6,0,0,1)
+        self.ps1.channel = self.channels[0]
+        self.ps2.channel = self.channels[1]
+        #print('\n\n\n\n******')
+        #print(self.thefig)
+        #print('******\n\n\n\n')
+
+
     
     
     def update(self,dt):
         
         self.ps1.pull()
+        print(self.ps1.channel)
         self.ps2.pull()
+        print(self.ps2.channel)
         numdiff = abs(self.ps1.numdat - self.ps2.numdat)
         self.pdiff = MakeDataPresentable(numdiff)
         #self.thefig.redraw()
@@ -86,7 +93,8 @@ class FrictionTrainerApp(App):
 
     def build(self):
         #print('\n\n\n*********building**********\n\n\n')
-        display = FrictionDisplay()
+        channelnums = [0,3]
+        display = FrictionDisplay(channel_nums=channelnums)
         Clock.schedule_interval(display.update, 60.0/60.0)
         return display
 

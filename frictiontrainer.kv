@@ -1,9 +1,6 @@
 #:kivy 1.11.1
 
 <FrictionDisplay>:    
-    #fig: thefig
-    ps1: pressure_sensor_1
-    ps2: pressure_sensor_2
     
     # this boxlayout represents the whole display
     BoxLayout:
@@ -105,16 +102,6 @@
                     font_size: root.font_size
                     text: str(root.ps2.data)
 
-    #RealTimeFigure:
-        #id: thefig
-
-    PressureSensor:
-        id: pressure_sensor_1
-            
-    PressureSensor:
-        id: pressure_sensor_2
-
-        
         
                 
 
