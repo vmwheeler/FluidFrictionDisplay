@@ -4,6 +4,8 @@ kivy.require('1.11.1')
 #print(kivy.__version__)
 
 from kivy.app import App
+from kivy.core.window import Window
+#Window.fullscreen = 'auto'
 from kivy.uix.widget import Widget
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.boxlayout import BoxLayout
@@ -11,14 +13,10 @@ from kivy.clock import Clock
 from kivy.properties import (
     NumericProperty, ReferenceListProperty, ObjectProperty, StringProperty, ListProperty
 )
-from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
-import matplotlib
-matplotlib.use('module://kivy.garden.matplotlib.backend_kivy')
-import matplotlib.pyplot as plt
-import numpy as np
 import os
+import numpy as np
 
-#print(os.path.dirname(kivy.__file__))
+print(os.path.dirname(kivy.__file__))
 #moop
 
 def MakeDataPresentable(numin):
@@ -32,25 +30,25 @@ class PressureSensor(Widget):
     
     def __init__(self, **kwargs):
         self.channel = kwargs.pop('channel')
-        print("\n\n***\ninitializing pressure sensor\n***\n\n")
+        print("\n***\ninitializing pressure sensor on channel " + str(self.channel) + "\n***\n")
         
         super(PressureSensor, self).__init__(**kwargs)
         self.numdat = 10 + np.random.randn()
         
-        print(self.numdat*self.psi_per_kpa)
+        #print(self.numdat*self.psi_per_kpa)
         
 
     def pull(self):
         self.numdat = 10 + np.random.randn()
         self.data = MakeDataPresentable(self.numdat)
-        print(self.numdat*self.psi_per_kpa)
+        # print(self.numdat*self.psi_per_kpa)
 
 
 class FrictionDisplay(Widget):
 
     #thefig = ObjectProperty(None)
-    ps1 = ObjectProperty(PressureSensor(channel=0))
-    ps2 = ObjectProperty(PressureSensor(channel=0))
+    ps1 = ObjectProperty(PressureSensor(channel='None'))
+    ps2 = ObjectProperty(PressureSensor(channel='None'))
 
     bgcol = ListProperty((0.6,0,0,1))
     
@@ -73,14 +71,12 @@ class FrictionDisplay(Widget):
         #print('******\n\n\n\n')
 
 
-    
-    
     def update(self,dt):
         
         self.ps1.pull()
-        print(self.ps1.channel)
+        #print(self.ps1.channel)
         self.ps2.pull()
-        print(self.ps2.channel)
+        #print(self.ps2.channel)
         numdiff = abs(self.ps1.numdat - self.ps2.numdat)
         self.pdiff = MakeDataPresentable(numdiff)
         #self.thefig.redraw()
@@ -100,4 +96,5 @@ class FrictionTrainerApp(App):
 
 
 if __name__ == '__main__':
+    #Window.fullscreen = True
     FrictionTrainerApp().run()
