@@ -85,7 +85,7 @@ class FrictionDisplay(Widget):
     
     pdiff = StringProperty('0')
     errordiff = StringProperty(u'\u221E')
-    font_size = NumericProperty(50)
+    font_size = NumericProperty(72)
 
     def __init__(self, **kwargs):
         self.channels = kwargs.pop('channel_nums')
@@ -130,7 +130,7 @@ class FrictionTrainerApp(App):
         
         channelnums = [0,3]
         display = FrictionDisplay(channel_nums=channelnums,board=board)
-        Clock.schedule_interval(display.update, 60.0/60.0)
+        Clock.schedule_interval(display.update, 20.0/60.0)
         return display
 
 
