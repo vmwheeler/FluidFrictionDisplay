@@ -15,6 +15,9 @@ from kivy.properties import (
 )
 import os
 import numpy as np
+from screeninfo import get_monitors
+displayinfo = get_monitors()[0]
+displaywh = (displayinfo.width,displayinfo.height)
 
 print(os.path.dirname(kivy.__file__))
 #moop
@@ -88,7 +91,10 @@ class FrictionDisplay(Widget):
 class FrictionTrainerApp(App):
 
     def build(self):
-        #print('\n\n\n*********building**********\n\n\n')
+
+
+        Window.size = displaywh
+
         channelnums = [0,3]
         display = FrictionDisplay(channel_nums=channelnums)
         Clock.schedule_interval(display.update, 60.0/60.0)
