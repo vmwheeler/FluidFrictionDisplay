@@ -24,7 +24,7 @@ print(os.path.dirname(kivy.__file__))
 #moop
 
 def MakeDataPresentable(numin):
-    return "{:.3f}".format(numin)
+    return "{:.3f}".format(numin).rstrip('0')
 
 
 def CheckDAQBoard():
@@ -51,17 +51,25 @@ class PressureSensor(Widget):
         print("\n***\ninitializing pressure sensor on channel " + str(self.channel) + "\n***\n")
         
         super(PressureSensor, self).__init__(**kwargs)
-        self.numdat = 10 + np.random.randn()
+        self.numdat = 0
         
+        #self.error = 1.20676 # kPa
+        self.error = 1.2 # kPa
         #print(self.numdat*self.psi_per_kpa)
         
 
     def pull(self):
         
         #self.numdat = 10 + np.random.randn()
-        self.numdat = self.board.a_in_read(self.channel)
+        rawv = self.board.a_in_read(self.channel)
+        self.numdat = self.v_to_p(rawv)
         self.data = MakeDataPresentable(self.numdat)
+        #self.error = 1.20676 # kPa
+        self.error = 1.2 # kPa
         # print(self.numdat*self.psi_per_kpa)
+        
+    def v_to_p(self,v):
+        return 43.0985*(v-2.)
 
 
 class FrictionDisplay(Widget):
@@ -76,6 +84,7 @@ class FrictionDisplay(Widget):
     pcol = ListProperty((0.2,0.2,0.2,1))
     
     pdiff = StringProperty('0')
+    errordiff = StringProperty(u'\u221E')
     font_size = NumericProperty(50)
 
     def __init__(self, **kwargs):
@@ -102,8 +111,11 @@ class FrictionDisplay(Widget):
         #print(self.ps2.channel)
         numdiff = abs(self.ps1.numdat - self.ps2.numdat)
         self.pdiff = MakeDataPresentable(numdiff)
+        numerror = np.sqrt(self.ps1.error**2 + self.ps2.error**2)
+        self.errordiff = MakeDataPresentable(round(numerror,2))
+        
         #self.thefig.redraw()
-        if numdiff>1.:
+        if numdiff>numerror:
             self.bgcol = self.bggo
         else:
             self.bgcol = self.bgstop

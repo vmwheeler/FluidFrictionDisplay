@@ -35,7 +35,7 @@
                 #color: root.tcol.r, root.tcol.g, root.tcol.b, root.tcol.a
                 markup: True
                 font_size: root.font_size
-                text: '| p[sub]2[/sub] - p[sub]1[/sub] |' + '\n' + str(root.pdiff)
+                text: '| p[sub]2[/sub] - p[sub]1[/sub] |' + '\n' + str(root.pdiff) + u' \u00B1 ' + str(root.errordiff) + " kPa"
 
                         
         # this is the second element        
@@ -69,7 +69,7 @@
                 Label:
                     color: root.tcol
                     font_size: root.font_size
-                    text: str(root.ps1.data)
+                    text: str(root.ps1.data) + u' \u00B1 ' + str(root.ps1.error) + ' ' + " kPa"
                 
             
             BoxLayout:
@@ -97,7 +97,7 @@
                 Label:
                     color: root.tcol
                     font_size: root.font_size
-                    text: str(root.ps2.data)
+                    text: str(root.ps2.data) + u' \u00B1 ' + str(root.ps2.error) + " kPa"
 
         
     
