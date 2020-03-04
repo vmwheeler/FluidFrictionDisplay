@@ -23,8 +23,11 @@ from daqhats import hat_list, HatIDs, mcc118
 print(os.path.dirname(kivy.__file__))
 #moop
 
-def MakeDataPresentable(numin):
-    return "{:.3f}".format(numin).rstrip('0')
+def MakeDataPresentable(numin,trim=True):
+    if trim:
+        return "{:.3f}".format(numin).rstrip('0')
+    else:
+        return "{:.3f}".format(numin)
 
 
 def CheckDAQBoard():
@@ -63,7 +66,7 @@ class PressureSensor(Widget):
         #self.numdat = 10 + np.random.randn()
         rawv = self.board.a_in_read(self.channel)
         self.numdat = self.v_to_p(rawv)
-        self.data = MakeDataPresentable(self.numdat)
+        self.data = MakeDataPresentable(self.numdat,trim=False)
         #self.error = 1.20676 # kPa
         self.error = 1.2 # kPa
         # print(self.numdat*self.psi_per_kpa)
@@ -110,7 +113,7 @@ class FrictionDisplay(Widget):
         self.ps2.pull()
         #print(self.ps2.channel)
         numdiff = abs(self.ps1.numdat - self.ps2.numdat)
-        self.pdiff = MakeDataPresentable(numdiff)
+        self.pdiff = MakeDataPresentable(numdiff,trim=False)
         numerror = np.sqrt(self.ps1.error**2 + self.ps2.error**2)
         self.errordiff = MakeDataPresentable(round(numerror,2))
         
